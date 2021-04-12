@@ -31,8 +31,8 @@ public class Store {
         this.products.add(electronicProduct);
     }
 
-    public void addClothingProduct(String name, Double price, ClothingProduct.SubCategory subCategory, ClothingProduct.Size size){
-        ClothingProduct clothingProduct = new ClothingProduct(name, price, subCategory, size);
+    public void addClothingProduct(String name, Double price, ClothingProduct.SubCategory subCategory){
+        ClothingProduct clothingProduct = new ClothingProduct(name, price, subCategory);
         this.products.add(clothingProduct);
     }
 
@@ -68,4 +68,35 @@ public class Store {
     public void clear(){
         this.products.clear();
     }
+
+    public ArrayList<Product> getAllFoodProducts(){
+        ArrayList<Product> foodProducts = new ArrayList<>();
+        for(Product product: products){
+            if(product.getCategory() == Product.Category.Food){
+                foodProducts.add(product);
+            }
+        }
+        return foodProducts;
+    }
+
+    public ArrayList<Product> getAllElectronicProducts(){
+        ArrayList<Product> eletronicProducts = new ArrayList<>();
+        for(Product product: products){
+            if(product.getCategory() == Product.Category.Electronic){
+                eletronicProducts.add(product);
+            }
+        }
+        return eletronicProducts;
+    }
+
+    public ArrayList<Product> getAllClothingProducts(){
+        ArrayList<Product> clothingProducts = new ArrayList<>();
+        for(Product product: products){
+            if(product.getCategory() == Product.Category.Clothing){
+                clothingProducts.add(product);
+            }
+        }
+        return clothingProducts;
+    }
+
 }

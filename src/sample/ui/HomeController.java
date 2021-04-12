@@ -1,5 +1,6 @@
 package sample.ui;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,15 +12,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import sample.Main;
 import sample.enums.Category;
+import sample.models.Product;
 
 
 public class HomeController {
     ObservableList tabItems = FXCollections.observableArrayList();
-    ObservableList allItems = FXCollections.observableArrayList();
-    ObservableList foodItems = FXCollections.observableArrayList();
-    ObservableList electronicItems = FXCollections.observableArrayList();
-    ObservableList clothingItems = FXCollections.observableArrayList();
+    ObservableList itemsList = FXCollections.observableArrayList();
     public ListView<String> tabsListView;
     public ListView<String> itemsListView;
 
@@ -33,14 +33,13 @@ public class HomeController {
     public Button addToCart = new Button();
     public Button buyNow = new Button();
     int quantity = 1;
+
+
     @FXML
     void initialize() {
         setTabsList();
-        setAllItemsList();
-        setFoodItemsList();
-        setClothingItemsList();
-        setElectronicItemsList();
         showAllItems();
+        tabsListView.getSelectionModel().selectFirst();
         detailsMenu.setVisible(false);
         name.setText("Kacchi");
         quantityField.setText(quantity + "");
@@ -74,6 +73,8 @@ public class HomeController {
         decrease.setDisable(true);
     }
 
+
+
     String getLabel(String name){
         return name + " Items";
     }
@@ -85,65 +86,69 @@ public class HomeController {
         }
         tabsListView.getItems().addAll(tabItems);
     }
-    private void setAllItemsList(){
-        allItems.removeAll(allItems);
-        for(int i=0; i<5; i++){
-            allItems.add("All Item " + i);
-        }
-    }
-    private void setFoodItemsList(){
-        foodItems.removeAll(allItems);
-        for(int i=0; i<5; i++){
-            foodItems.add("Food Item " + i);
-        }
-    }
-    private void setElectronicItemsList(){
-        electronicItems.removeAll(allItems);
-        for(int i=0; i<5; i++){
-            electronicItems.add("Electronic Item " + i);
-        }
-    }
-    private void setClothingItemsList(){
-        clothingItems.removeAll(allItems);
-        for(int i=0; i<5; i++){
-            clothingItems.add("Clothing Item " + i);
+
+    @FXML
+    public void tabListViewMouseClick(MouseEvent arg0) {
+        if(tabsListView.getSelectionModel().getSelectedItem() != null){
+            if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.All.name()))){
+                showAllItems();
+            }
+            else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Food.name()))){
+                showFoodItems();
+            }
+            else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Electronic.name()))){
+                showElectronicItems();
+            }
+            else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Clothing.name()))){
+                showClothingItems();
+            }
         }
     }
 
     @FXML
-    public void handleMouseClick(MouseEvent arg0) {
-        if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.All.name()))){
-            showAllItems();
+    public void itemListViewMouseClick(MouseEvent arg){
+        if(itemsListView.getSelectionModel().getSelectedItem() != null){
+            LoadDetailsView(itemsListView.getSelectionModel().getSelectedIndices());
+        }else{
+            detailsMenu.setVisible(false);
         }
-        else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Food.name()))){
-            showFoodItems();
-        }
-        else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Electronic.name()))){
-            showElectronicItems();
-        }
-        else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Clothing.name()))){
-            showClothingItems();
-        }
-        else{
-            return;
-        }
-        detailsMenu.setVisible(true);
     }
 
     private void showAllItems(){
+        itemsList.removeAll(itemsList);
+        for(Product product: Main.store.getProducts()){
+            itemsList.add(product.getName());
+        }
         itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(allItems);
+        itemsListView.getItems().addAll(itemsList);
     }
     private void showFoodItems(){
+        itemsList.removeAll(itemsList);
+        for(Product product: Main.store.getAllFoodProducts()){
+            itemsList.add(product.getName());
+        }
         itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(foodItems);
+        itemsListView.getItems().addAll(itemsList);
     }
     private void showElectronicItems(){
+        itemsList.removeAll(itemsList);
+        for(Product product: Main.store.getAllElectronicProducts()){
+            itemsList.add(product.getName());
+        }
         itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(electronicItems);
+        itemsListView.getItems().addAll(itemsList);
     }
     private void showClothingItems(){
+        itemsList.removeAll(itemsList);
+        for(Product product: Main.store.getAllClothingProducts()){
+            itemsList.add(product.getName());
+        }
         itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(clothingItems);
+        itemsListView.getItems().addAll(itemsList);
+    }
+
+    void LoadDetailsView(ObservableList<Integer> index){
+        detailsMenu.setVisible(true);
+        var name = itemsList.get(index.get(0));
     }
 }

@@ -20,10 +20,9 @@ public class ClothingProduct extends Product{
     SubCategory subCategory;
     Size size;
 
-    public ClothingProduct(String name, Double price, SubCategory subCategory, Size size){
+    public ClothingProduct(String name, Double price, SubCategory subCategory){
         super(name, Category.Clothing, price);
         this.subCategory = subCategory;
-        this.size = size;
     }
 
     public SubCategory getSubCategory() {
