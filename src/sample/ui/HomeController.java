@@ -16,11 +16,7 @@ import sample.models.ClothingProduct;
 import sample.models.ElectronicProduct;
 import sample.models.FoodProduct;
 import sample.models.Product;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.PropertyPermission;
 
 
 public class HomeController {
