@@ -50,31 +50,31 @@
                   </Label>
                   <HBox spacing="10.0">
                      <children>
-                        <Label text="Name:" />
-                        <Label fx:id="name" text="Label" />
+                        <Label minWidth="-Infinity" prefWidth="60.0" text="Name:" />
+                        <Label fx:id="name" text="Product Name" wrapText="true" />
                      </children>
                   </HBox>
                   <HBox spacing="10.0">
                      <children>
-                        <Label text="Category:" />
-                        <Label fx:id="category" text="Label" />
+                        <Label minWidth="-Infinity" prefWidth="60.0" text="Category:" />
+                        <Label fx:id="category" text="Product Category" wrapText="true" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="37.0" spacing="10.0">
                      <children>
-                        <Label text="Price:" />
-                        <Label fx:id="category1" text="299 TK" />
+                        <Label minWidth="-Infinity" prefWidth="60.0" text="Price:" />
+                        <Label fx:id="category1" text="299 TK" wrapText="true" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="64.0" spacing="10.0">
                      <children>
-                        <Label text="Stock:" />
-                        <Label fx:id="category11" text="In Stock" />
+                        <Label minWidth="-Infinity" prefWidth="60.0" text="Stock:" />
+                        <Label fx:id="category11" text="In Stock" wrapText="true" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <Separator maxHeight="1.7976931348623157E308" maxWidth="10.0" orientation="VERTICAL" visible="false" VBox.vgrow="ALWAYS" />
+            <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" visible="false" VBox.vgrow="ALWAYS" />
             <VBox spacing="10.0">
                <children>
                   <HBox spacing="10.0">

@@ -8,35 +8,33 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ui.HomeController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ui.CartController">
    <top>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="48.0" spacing="10.0" style="-fx-background-color: f1f1f1;" BorderPane.alignment="CENTER">
          <padding>
             <Insets left="20.0" right="20.0" />
          </padding>
          <children>
-            <Label text="Hi, User">
+            <Button mnemonicParsing="false" text="Back" />
+            <Label text="Cart">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" text="View Cart" />
             <Button layoutX="720.0" layoutY="21.0" mnemonicParsing="false" text="Log Out" />
          </children>
       </HBox>
    </top>
-   <left>
-      <ListView fx:id="tabsListView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMousePressed="#handleMouseClick" pickOnBounds="false" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
    <center>
       <ListView fx:id="itemsListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <right>
-      <VBox fx:id="detailsMenu" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+      <VBox fx:id="detailsMenu" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="240.0" spacing="20.0" style="-fx-border-color: #c1c1c1; -fx-background-color: #fff;" BorderPane.alignment="CENTER">
          <children>
             <VBox spacing="4.0">
                <children>
@@ -63,13 +61,13 @@
                   <HBox layoutX="10.0" layoutY="37.0" spacing="10.0">
                      <children>
                         <Label minWidth="-Infinity" prefWidth="60.0" text="Price:" />
-                        <Label fx:id="category1" text="299 TK" wrapText="true" />
+                        <Label fx:id="category1" text="299 Tk" wrapText="true" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="64.0" spacing="10.0">
                      <children>
-                        <Label minWidth="-Infinity" prefWidth="60.0" text="Stock:" />
-                        <Label fx:id="category11" text="In Stock" wrapText="true" />
+                        <Label minWidth="-Infinity" prefWidth="60.0" text="Total Price:" />
+                        <Label fx:id="category11" text="299 Tk" wrapText="true" />
                      </children>
                   </HBox>
                </children>
@@ -80,28 +78,25 @@
                   <HBox spacing="10.0">
                      <children>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Quantity" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="decrease" mnemonicParsing="false" text="-" />
-                        <TextField fx:id="quantityField" alignment="CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="56.0" HBox.hgrow="NEVER">
+                        <Button mnemonicParsing="false" text="-" />
+                        <TextField alignment="CENTER" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="56.0" HBox.hgrow="NEVER">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <Button fx:id="increase" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="+" />
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="+" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <HBox alignment="CENTER_LEFT">
-               <children>
-                  <Button fx:id="addToCart" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add to Cart" />
-                  <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="buyNow" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Buy Now" />
-               </children>
-            </HBox>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Remove from Cart" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </VBox>
    </right>
+   <bottom>
+      <Pane maxWidth="1.7976931348623157E308" prefHeight="100.0" style="-fx-background-color: #fff;" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
