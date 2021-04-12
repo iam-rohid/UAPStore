@@ -6,34 +6,29 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import sample.Main;
 import sample.enums.Category;
+import sample.models.ClothingProduct;
+import sample.models.ElectronicProduct;
+import sample.models.FoodProduct;
 import sample.models.Product;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.PropertyPermission;
 
 
 public class HomeController {
+    // Sidebar
     ObservableList tabItems = FXCollections.observableArrayList();
-    ObservableList itemsList = FXCollections.observableArrayList();
     public ListView<String> tabsListView;
-    public ListView<String> itemsListView;
-
-    //For Details
-    public VBox detailsMenu = new VBox();
-    public Label name = new Label();
-    public Label category = new Label();
-    public TextField quantityField = new TextField();
-    public Button increase = new Button();
-    public Button decrease = new Button();
-    public Button addToCart = new Button();
-    public Button buyNow = new Button();
-    int quantity = 1;
-
+    public Button viewCart = new Button();
+    public Button logOut = new Button();
 
     @FXML
     void initialize() {
@@ -41,12 +36,10 @@ public class HomeController {
         showAllItems();
         tabsListView.getSelectionModel().selectFirst();
         detailsMenu.setVisible(false);
-        name.setText("Kacchi");
         quantityField.setText(quantity + "");
-        category.setText(Category.Food.name());
-
-        increase.setOnAction(new EventHandler<ActionEvent>()
-        {
+        decrease.setDisable(true);
+        quantityField.setDisable(true);
+        increase.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event)
             {
@@ -54,12 +47,10 @@ public class HomeController {
                     decrease.setDisable(false);
                 }
                 quantity++;
-                quantityField.setText(quantity + "");
+                updateTotalPrice();
             }
         });
-
-        decrease.setOnAction(new EventHandler<ActionEvent>()
-        {
+        decrease.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event)
             {
@@ -67,18 +58,34 @@ public class HomeController {
                     decrease.setDisable(true);
                 }
                 quantity--;
-                quantityField.setText(quantity + "");
+                updateTotalPrice();
             }
         });
-        decrease.setDisable(true);
+        addToCart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Main.cart.addCartItem(selectedProduct, quantity);
+                quantity = 1;
+                updateTotalPrice();
+            }
+        });
+        viewCart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Main.cart.viewCart();
+            }
+        });
+        logOut.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Main.auth.logOut();
+            }
+        });
     }
-
-
 
     String getLabel(String name){
         return name + " Items";
     }
-
     private void setTabsList(){
         tabItems.removeAll(tabItems);
         for(int i = 0; i< Category.values().length; i++){
@@ -105,50 +112,97 @@ public class HomeController {
         }
     }
 
+    ObservableList<Product> productList;
     @FXML
-    public void itemListViewMouseClick(MouseEvent arg){
-        if(itemsListView.getSelectionModel().getSelectedItem() != null){
-            LoadDetailsView(itemsListView.getSelectionModel().getSelectedIndices());
-        }else{
-            detailsMenu.setVisible(false);
-        }
-    }
+    private TableView<Product> productTable;
+    @FXML
+    private TableColumn<Product, String> productName;
+    @FXML
+    private TableColumn<Product, String> productId;
+    @FXML
+    private TableColumn<Product, Product.Category> productCategory;
+    @FXML
+    private TableColumn<Product, Double> productPrice;
 
     private void showAllItems(){
-        itemsList.removeAll(itemsList);
-        for(Product product: Main.store.getProducts()){
-            itemsList.add(product.getName());
-        }
-        itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(itemsList);
+        this.productList = FXCollections.observableArrayList(Main.store.getProducts());
+        productName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        productId.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
+        productCategory.setCellValueFactory(new PropertyValueFactory<Product, Product.Category>("category"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+        productTable.setItems(this.productList);
     }
     private void showFoodItems(){
-        itemsList.removeAll(itemsList);
-        for(Product product: Main.store.getAllFoodProducts()){
-            itemsList.add(product.getName());
-        }
-        itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(itemsList);
+        this.productList = FXCollections.observableArrayList(Main.store.getAllFoodProducts());
+        productTable.setItems(this.productList);
     }
     private void showElectronicItems(){
-        itemsList.removeAll(itemsList);
-        for(Product product: Main.store.getAllElectronicProducts()){
-            itemsList.add(product.getName());
-        }
-        itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(itemsList);
+        this.productList = FXCollections.observableArrayList(Main.store.getAllElectronicProducts());
+        productTable.setItems(this.productList);
     }
     private void showClothingItems(){
-        itemsList.removeAll(itemsList);
-        for(Product product: Main.store.getAllClothingProducts()){
-            itemsList.add(product.getName());
+        this.productList = FXCollections.observableArrayList(Main.store.getAllClothingProducts());
+        productTable.setItems(this.productList);
+    }
+    @FXML
+    public void tableViewMouseClick(MouseEvent arg){
+        if(productTable.getSelectionModel().getSelectedItem() != null){
+            LoadDetailsView(productTable.getSelectionModel().getSelectedItem());
+        }else{
+            detailsMenu.setVisible(false);
+            selectedProduct = null;
         }
-        itemsListView.getItems().clear();
-        itemsListView.getItems().addAll(itemsList);
     }
 
-    void LoadDetailsView(ObservableList<Integer> index){
+
+    //For Details
+    public VBox detailsMenu = new VBox();
+    public Label totalPrice = new Label();
+    public TextField quantityField = new TextField();
+    public Button increase = new Button();
+    public Button decrease = new Button();
+    public Button addToCart = new Button();
+    public Button buyNow = new Button();
+    int quantity = 1;
+    Product selectedProduct;
+
+
+    public ListView<String> detailsListView;
+    ObservableList detailsList = FXCollections.observableArrayList();
+
+    void LoadDetailsView(Product product){
+        if(selectedProduct == null || product != selectedProduct){
+            this.quantity = 1;
+            selectedProduct = product;
+        }
+        updateTotalPrice();
+        detailsList.removeAll(detailsList);
+        detailsList.add("Id: " + product.getId());
+        detailsList.add("Name: " + product.getName());
+        detailsList.add("Category: " + product.getCategory());
+        if(product.getCategory() == Product.Category.Food){
+            FoodProduct foodProduct = (FoodProduct) product;
+            String pattern = "dd MMM yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String date = simpleDateFormat.format(foodProduct.getExpirationDate());
+            detailsList.add("Expiration Date: "+ date);
+        }
+        if(product.getCategory() == Product.Category.Electronic){
+            ElectronicProduct electronicProduct = (ElectronicProduct)product;
+            detailsList.add("Type: " + electronicProduct.getSubCategory().name());
+        }
+        if(product.getCategory() == Product.Category.Clothing){
+            ClothingProduct clothingProduct = (ClothingProduct) product;
+            detailsList.add("Type: " + clothingProduct.getSubCategory().name());
+        }
+        detailsList.add("Price: " + product.getPrice() + " Tk");
+        detailsListView.getItems().clear();
+        detailsListView.getItems().addAll(detailsList);
         detailsMenu.setVisible(true);
-        var name = itemsList.get(index.get(0));
+    }
+
+    void updateTotalPrice(){
+        quantityField.setText(quantity + "");
+        totalPrice.setText((selectedProduct.getPrice() * quantity) + " Tk");
     }
 }

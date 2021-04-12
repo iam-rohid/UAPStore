@@ -12,12 +12,12 @@ public class Product {
     String name;
     Category category;
     Double price;
-
+    boolean inStock;
     public Product(String name, Category category, Double price){
         this.name = name;
         this.category = category;
         this.price = price;
-        this.id = UUID.randomUUID().toString();
+        this.id = (Math.random() + "").substring(2, 8);
     }
 
     public String getId() {
@@ -46,5 +46,13 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
     }
 }

@@ -74,4 +74,10 @@ public class Cart {
         calculateTotalPrice();
         return totalPrice;
     }
+
+    public void viewCart(){
+        for(CartItem cartItem: cartItems){
+            System.out.println(cartItem.getProduct().getName() + " - " + cartItem.getQuantity());
+        }
+    }
 }

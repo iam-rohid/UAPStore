@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Main extends Application {
     public static  Store store;
     public static Cart cart;
+    public static  Auth auth;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ui/home.fxml")));
