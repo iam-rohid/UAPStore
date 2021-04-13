@@ -15,6 +15,8 @@ import sample.models.ClothingProduct;
 import sample.models.ElectronicProduct;
 import sample.models.FoodProduct;
 import sample.models.Product;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 
@@ -67,13 +69,21 @@ public class HomeController {
         viewCart.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Main.cart.viewCart();
+                try {
+                    Main.screenController.activate("cart");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         logOut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Main.auth.logOut();
+                try {
+                    Main.auth.logOut();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         productTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -176,15 +186,16 @@ public class HomeController {
             String pattern = "dd MMM yyyy";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             String date = simpleDateFormat.format(foodProduct.getExpirationDate());
+            detailsList.add("Sub Category: " + foodProduct.getSubCategory());
             detailsList.add("Expiration Date: "+ date);
         }
         if(product.getCategory() == Product.Category.Electronic){
             ElectronicProduct electronicProduct = (ElectronicProduct)product;
-            detailsList.add("Type: " + electronicProduct.getSubCategory().name());
+            detailsList.add("Sub Category: " + electronicProduct.getSubCategory().name());
         }
         if(product.getCategory() == Product.Category.Clothing){
             ClothingProduct clothingProduct = (ClothingProduct) product;
-            detailsList.add("Type: " + clothingProduct.getSubCategory().name());
+            detailsList.add("Sub Category: " + clothingProduct.getSubCategory().name());
         }
         detailsList.add("Price: " + product.getPrice() + " Tk");
         detailsListView.getItems().clear();

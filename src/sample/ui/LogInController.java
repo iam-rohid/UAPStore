@@ -1,13 +1,15 @@
 package sample.ui;
 
 import javafx.scene.control.TextField;
+import sample.Main;
+
+import java.io.IOException;
 
 public class LogInController {
     public TextField emailField;
     public TextField passwordField;
 
-    public void logIn(){
-        System.out.println(this.emailField.getText());
-        System.out.println(this.passwordField.getText());
+    public void logIn() throws IOException {
+        Main.auth.logIn(emailField.getText(), passwordField.getText());
     }
 }

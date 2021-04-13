@@ -16,53 +16,40 @@ import sample.models.ElectronicProduct;
 import sample.models.FoodProduct;
 import sample.models.Product;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class CartController {
 
     @FXML
     private Button homeButton;
-
     @FXML
     private Button logOutButton;
-
     @FXML
     private VBox detailsMenu;
-
     @FXML
     private ListView<String> detailsListView;
-
     @FXML
     private Button decreaseButton;
-
     @FXML
     private TextField quantityField;
-
     @FXML
     private Button increaseButton;
-
     @FXML
     private Button removeItemButton;
-
     @FXML
     private Button clearCartButton;
-
     ObservableList<CartItem> cartList;
     @FXML
     private TableView<CartItem> cartListTable;
-
     @FXML
     private TableColumn<CartItem, String> productId;
-
     @FXML
     private TableColumn<CartItem, String> productName;
-
     @FXML
     private TableColumn<CartItem, Product.Category> productCategory;
-
     @FXML
     private TableColumn<CartItem, Integer> productQuantity;
-
     @FXML
     private TableColumn<CartItem, Double> productTotalPrice;
     @FXML
@@ -141,9 +128,24 @@ public class CartController {
         logOutButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Main.auth.logOut();
+                try {
+                    Main.auth.logOut();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
+        homeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    Main.screenController.activate("home");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        System.out.println("Cart Initialized");
     }
 
     void loadCart(){
@@ -164,23 +166,24 @@ public class CartController {
         detailsList.add("Id: " + cartItem.getProduct().getId());
         detailsList.add("Name: " + cartItem.getProduct().getName());
         detailsList.add("Category: " + cartItem.getProduct().getCategory());
-        detailsList.add("Quantity: " + cartItem.getQuantity());
         if(cartItem.getProduct().getCategory() == Product.Category.Food){
             FoodProduct foodProduct = (FoodProduct) cartItem.getProduct();
             String pattern = "dd MMM yyyy";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             String date = simpleDateFormat.format(foodProduct.getExpirationDate());
+            detailsList.add("Sub Category: " + foodProduct.getSubCategory());
             detailsList.add("Expiration Date: "+ date);
         }
         if(cartItem.getCategory() == Product.Category.Electronic){
             ElectronicProduct electronicProduct = (ElectronicProduct)cartItem.getProduct();
-            detailsList.add("Type: " + electronicProduct.getSubCategory().name());
+            detailsList.add("Sub Category: " + electronicProduct.getSubCategory().name());
         }
         if(cartItem.getCategory() == Product.Category.Clothing){
             ClothingProduct clothingProduct = (ClothingProduct) cartItem.getProduct();
-            detailsList.add("Type: " + clothingProduct.getSubCategory().name());
+            detailsList.add("Sub Category: " + clothingProduct.getSubCategory().name());
         }
         detailsList.add("price: " + cartItem.getProduct().getPrice() + " Tk");
+        detailsList.add("Quantity: " + cartItem.getQuantity());
         detailsList.add("Total Price: " + cartItem.getTotalPrice() + " Tk");
 
         detailsListView.getItems().clear();
