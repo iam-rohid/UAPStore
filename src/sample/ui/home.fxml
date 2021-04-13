@@ -32,7 +32,7 @@
       </HBox>
    </top>
    <left>
-      <ListView fx:id="tabsListView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMousePressed="#tabListViewMouseClick" pickOnBounds="false" prefWidth="140.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="tabsListView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" pickOnBounds="false" prefWidth="140.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
       <VBox fx:id="detailsMenu" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
@@ -86,7 +86,7 @@
       </VBox>
    </right>
    <center>
-      <TableView fx:id="productTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#tableViewMouseClick" BorderPane.alignment="CENTER">
+      <TableView fx:id="productTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
         <columns>
             <TableColumn fx:id="productId" maxWidth="6000.0" prefWidth="-1.0" text="Id" />
           <TableColumn fx:id="productName" maxWidth="6000.0" prefWidth="-1.0" text="Name" />

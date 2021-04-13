@@ -1,11 +1,12 @@
 package sample.models;
 
-public class CartItem {
+public class CartItem extends Product {
     Product product;
     int quantity;
     double totalPrice;
 
     public CartItem(Product product, int quantity){
+        super(product.name, product.category, product.price);
         this.product = product;
         this.quantity = quantity;
         updateTotalPrice();

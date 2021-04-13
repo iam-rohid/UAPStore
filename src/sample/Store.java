@@ -10,9 +10,6 @@ import java.util.Date;
 
 public class Store {
     ArrayList<Product> products = new ArrayList<Product>();
-//    ArrayList<FoodProduct> foodProducts = new ArrayList<FoodProduct>();
-//    ArrayList<ElectronicProduct> electronicProducts = new ArrayList<ElectronicProduct>();
-//    ArrayList<ClothingProduct> clothingProducts = new ArrayList<ClothingProduct>();
 
     public Store(ArrayList<Product> products){
         this.products = products;

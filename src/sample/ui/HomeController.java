@@ -1,6 +1,5 @@
 package sample.ui;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -77,6 +76,30 @@ public class HomeController {
                 Main.auth.logOut();
             }
         });
+        productTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null){
+                loadDetailsView(newSelection);
+            }else{
+                detailsMenu.setVisible(false);
+                selectedProduct = null;
+            }
+        });
+        tabsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null && !newSelection.equals(oldSelection)){
+                if(newSelection.equals(getLabel(Category.All.name()))){
+                    showAllItems();
+                }
+                else if(newSelection.equals(getLabel(Category.Food.name()))){
+                    showFoodItems();
+                }
+                else if(newSelection.equals(getLabel(Category.Electronic.name()))){
+                    showElectronicItems();
+                }
+                else if(newSelection.equals(getLabel(Category.Clothing.name()))){
+                    showClothingItems();
+                }
+            }
+        });
     }
 
     String getLabel(String name){
@@ -88,24 +111,6 @@ public class HomeController {
             tabItems.add(getLabel(Category.values()[i].name()));
         }
         tabsListView.getItems().addAll(tabItems);
-    }
-
-    @FXML
-    public void tabListViewMouseClick(MouseEvent arg0) {
-        if(tabsListView.getSelectionModel().getSelectedItem() != null){
-            if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.All.name()))){
-                showAllItems();
-            }
-            else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Food.name()))){
-                showFoodItems();
-            }
-            else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Electronic.name()))){
-                showElectronicItems();
-            }
-            else if(tabsListView.getSelectionModel().getSelectedItem().equals(getLabel(Category.Clothing.name()))){
-                showClothingItems();
-            }
-        }
     }
 
     ObservableList<Product> productList;
@@ -140,16 +145,6 @@ public class HomeController {
         this.productList = FXCollections.observableArrayList(Main.store.getAllClothingProducts());
         productTable.setItems(this.productList);
     }
-    @FXML
-    public void tableViewMouseClick(MouseEvent arg){
-        if(productTable.getSelectionModel().getSelectedItem() != null){
-            LoadDetailsView(productTable.getSelectionModel().getSelectedItem());
-        }else{
-            detailsMenu.setVisible(false);
-            selectedProduct = null;
-        }
-    }
-
 
     //For Details
     public VBox detailsMenu = new VBox();
@@ -166,7 +161,7 @@ public class HomeController {
     public ListView<String> detailsListView;
     ObservableList detailsList = FXCollections.observableArrayList();
 
-    void LoadDetailsView(Product product){
+    void loadDetailsView(Product product){
         if(selectedProduct == null || product != selectedProduct){
             this.quantity = 1;
             selectedProduct = product;

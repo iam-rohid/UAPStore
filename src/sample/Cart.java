@@ -22,6 +22,14 @@ public class Cart {
         return cartItems;
     }
 
+    public Integer getCartItemCount(){
+        int c = 0;
+        for(CartItem cartItem: cartItems){
+            c+= cartItem.getQuantity();
+        }
+        return c;
+    }
+
     public CartItem getCartItem(String id){
         for(CartItem cartItem: cartItems){
             if(cartItem.getProduct().getId().equals(id)){
