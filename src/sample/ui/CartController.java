@@ -39,7 +39,6 @@ public class CartController {
     private Button removeItemButton;
     @FXML
     private Button clearCartButton;
-    ObservableList<CartItem> cartList;
     @FXML
     private TableView<CartItem> cartListTable;
     @FXML
@@ -62,6 +61,7 @@ public class CartController {
     CartItem selectedCartItem;
     ObservableList detailsList = FXCollections.observableArrayList();
     ObservableList overviewList = FXCollections.observableArrayList();
+    ObservableList<CartItem> cartList;
 
     @FXML
     void initialize() {
@@ -145,7 +145,6 @@ public class CartController {
                 }
             }
         });
-        System.out.println("Cart Initialized");
     }
 
     void loadCart(){

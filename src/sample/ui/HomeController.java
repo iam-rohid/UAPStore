@@ -23,16 +23,16 @@ import java.util.ArrayList;
 
 
 public class HomeController {
-    // Sidebar
-    ObservableList tabItems = FXCollections.observableArrayList();
-    public ListView<String> tabsListView;
-    public Button viewCart = new Button();
-    public Button logOut = new Button();
-
+    @FXML
+    private ListView<String> tabsListView;
+    @FXML
+    private Button viewCart = new Button();
+    @FXML
+    private Button logOut = new Button();
     @FXML
     private TextField searchTextField;
-
-    ObservableList<Product> productList;
+    @FXML
+    private Button searchButton;
     @FXML
     private TableView<Product> productTable;
     @FXML
@@ -43,27 +43,35 @@ public class HomeController {
     private TableColumn<Product, Product.Category> productCategory;
     @FXML
     private TableColumn<Product, Double> productPrice;
-    //For Details
-    public VBox detailsMenu = new VBox();
-    public Label totalPrice = new Label();
-    public TextField quantityField = new TextField();
-    public Button increase = new Button();
-    public Button decrease = new Button();
-    public Button addToCart = new Button();
-    public Button buyNow = new Button();
+    @FXML
+    private VBox detailsMenu;
+    @FXML
+    private Label totalPrice;
+    @FXML
+    private TextField quantityField;
+    @FXML
+    private Button increase;
+    @FXML
+    private Button decrease;
+    @FXML
+    private Button addToCart;
+    @FXML
+    private Button buyNow;
+    @FXML
+    private ListView<String> detailsListView;
+
     int quantity = 1;
     Product selectedProduct;
 
-    public ListView<String> detailsListView;
+    ObservableList tabItems = FXCollections.observableArrayList();
     ObservableList detailsList = FXCollections.observableArrayList();
+    ObservableList<Product> productList;
 
     @FXML
     void initialize() {
         initializeTabs();
-        showAllItems();
-        tabsListView.getSelectionModel().selectFirst();
+        handleSearch();
         detailsMenu.setVisible(false);
-        quantityField.setText(quantity + "");
         decrease.setDisable(true);
         quantityField.setDisable(true);
         increase.setOnAction(new EventHandler<ActionEvent>(){
@@ -124,8 +132,6 @@ public class HomeController {
                 selectedProduct = null;
             }
         });
-        // Search
-        handleSearch();
     }
 
     void initializeTabs(){
@@ -135,7 +141,6 @@ public class HomeController {
         }
         tabsListView.getItems().clear();
         tabsListView.getItems().addAll(tabItems);
-        tabsListView.getSelectionModel().selectFirst();
         tabsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null && !newSelection.equals(oldSelection)){
                 if(newSelection.equals(getLabel(Category.All.name()))){
@@ -152,8 +157,11 @@ public class HomeController {
                 }
             }
         });
+        tabsListView.getSelectionModel().selectFirst();
     }
-
+    String getLabel(String name){
+        return name ;
+    }
     void handleSearch(){
         searchTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -172,7 +180,7 @@ public class HomeController {
                             searchProducts.add(product);
                             continue;
                         }
-                        if(product.getId().toString().contains(t1)){
+                        if(product.getId().contains(t1)){
                             searchProducts.add(product);
                             continue;
                         }
@@ -182,11 +190,6 @@ public class HomeController {
             }
         });
     }
-    String getLabel(String name){
-        return name + " Items";
-    }
-
-
     private void showAllItems(){
         this.productList = FXCollections.observableArrayList(Main.store.getProducts());
         productName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
@@ -212,9 +215,6 @@ public class HomeController {
         this.productList = FXCollections.observableArrayList(products);
         productTable.setItems(this.productList);
     }
-
-
-
     void loadDetailsView(Product product){
         if(selectedProduct == null || product != selectedProduct){
             this.quantity = 1;
@@ -246,7 +246,6 @@ public class HomeController {
         detailsListView.getItems().addAll(detailsList);
         detailsMenu.setVisible(true);
     }
-
     void updateTotalPrice(){
         quantityField.setText(quantity + "");
         totalPrice.setText((selectedProduct.getPrice() * quantity) + " Tk");
