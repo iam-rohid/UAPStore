@@ -1,5 +1,7 @@
 package sample.ui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import sample.Main;
 import sample.enums.Category;
@@ -18,6 +19,7 @@ import sample.models.Product;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 
 public class HomeController {
@@ -28,8 +30,36 @@ public class HomeController {
     public Button logOut = new Button();
 
     @FXML
+    private TextField searchTextField;
+
+    ObservableList<Product> productList;
+    @FXML
+    private TableView<Product> productTable;
+    @FXML
+    private TableColumn<Product, String> productName;
+    @FXML
+    private TableColumn<Product, String> productId;
+    @FXML
+    private TableColumn<Product, Product.Category> productCategory;
+    @FXML
+    private TableColumn<Product, Double> productPrice;
+    //For Details
+    public VBox detailsMenu = new VBox();
+    public Label totalPrice = new Label();
+    public TextField quantityField = new TextField();
+    public Button increase = new Button();
+    public Button decrease = new Button();
+    public Button addToCart = new Button();
+    public Button buyNow = new Button();
+    int quantity = 1;
+    Product selectedProduct;
+
+    public ListView<String> detailsListView;
+    ObservableList detailsList = FXCollections.observableArrayList();
+
+    @FXML
     void initialize() {
-        setTabsList();
+        initializeTabs();
         showAllItems();
         tabsListView.getSelectionModel().selectFirst();
         detailsMenu.setVisible(false);
@@ -94,6 +124,18 @@ public class HomeController {
                 selectedProduct = null;
             }
         });
+        // Search
+        handleSearch();
+    }
+
+    void initializeTabs(){
+        tabItems.removeAll(tabItems);
+        for(int i = 0; i< Category.values().length; i++){
+            tabItems.add(getLabel(Category.values()[i].name()));
+        }
+        tabsListView.getItems().clear();
+        tabsListView.getItems().addAll(tabItems);
+        tabsListView.getSelectionModel().selectFirst();
         tabsListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null && !newSelection.equals(oldSelection)){
                 if(newSelection.equals(getLabel(Category.All.name()))){
@@ -112,28 +154,38 @@ public class HomeController {
         });
     }
 
+    void handleSearch(){
+        searchTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                tabsListView.getSelectionModel().selectFirst();
+                if(t1.isEmpty() || t1.isBlank()){
+                    showAllItems();
+                }else{
+                    ArrayList<Product> searchProducts = new ArrayList<>();
+                    for(Product product: Main.store.getProducts()){
+                        if(product.getName().toLowerCase().contains(t1.toLowerCase())){
+                            searchProducts.add(product);
+                            continue;
+                        }
+                        if(product.getCategory().name().toLowerCase().contains(t1.toLowerCase())){
+                            searchProducts.add(product);
+                            continue;
+                        }
+                        if(product.getId().toString().contains(t1)){
+                            searchProducts.add(product);
+                            continue;
+                        }
+                    }
+                    showSearchItems(searchProducts);
+                }
+            }
+        });
+    }
     String getLabel(String name){
         return name + " Items";
     }
-    private void setTabsList(){
-        tabItems.removeAll(tabItems);
-        for(int i = 0; i< Category.values().length; i++){
-            tabItems.add(getLabel(Category.values()[i].name()));
-        }
-        tabsListView.getItems().addAll(tabItems);
-    }
 
-    ObservableList<Product> productList;
-    @FXML
-    private TableView<Product> productTable;
-    @FXML
-    private TableColumn<Product, String> productName;
-    @FXML
-    private TableColumn<Product, String> productId;
-    @FXML
-    private TableColumn<Product, Product.Category> productCategory;
-    @FXML
-    private TableColumn<Product, Double> productPrice;
 
     private void showAllItems(){
         this.productList = FXCollections.observableArrayList(Main.store.getProducts());
@@ -156,20 +208,12 @@ public class HomeController {
         productTable.setItems(this.productList);
     }
 
-    //For Details
-    public VBox detailsMenu = new VBox();
-    public Label totalPrice = new Label();
-    public TextField quantityField = new TextField();
-    public Button increase = new Button();
-    public Button decrease = new Button();
-    public Button addToCart = new Button();
-    public Button buyNow = new Button();
-    int quantity = 1;
-    Product selectedProduct;
+    private void showSearchItems(ArrayList<Product> products){
+        this.productList = FXCollections.observableArrayList(products);
+        productTable.setItems(this.productList);
+    }
 
 
-    public ListView<String> detailsListView;
-    ObservableList detailsList = FXCollections.observableArrayList();
 
     void loadDetailsView(Product product){
         if(selectedProduct == null || product != selectedProduct){

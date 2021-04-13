@@ -25,6 +25,8 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <Separator layoutX="266.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchTextField" prefWidth="300.0" promptText="Search by name, category or id" />
             <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
             <Button fx:id="viewCart" mnemonicParsing="false" text="View Cart" />
             <Button fx:id="logOut" layoutX="720.0" layoutY="21.0" mnemonicParsing="false" text="Log Out" />
