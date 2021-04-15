@@ -18,12 +18,13 @@ public class Main extends Application {
     public static ScreenController screenController;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ui/login.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ui/home.fxml")));
         Scene scene = new Scene(root);
         screenController = new ScreenController(scene);
         screenController.addScreen("login", "ui/login.fxml");
         screenController.addScreen("home", "ui/home.fxml");
         screenController.addScreen("cart", "ui/cart.fxml");
+        screenController.addScreen("cart", "ui/admin.fxml");
         primaryStage.setTitle("UAP Store");
         primaryStage.setScene(scene);
         primaryStage.show();
