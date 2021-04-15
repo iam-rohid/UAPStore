@@ -96,6 +96,15 @@ public class HomeController {
                 updateTotalPrice();
             }
         });
+//
+//        buyNow.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                Alert dialogBox=new Alert(Alert.AlertType.INFORMATION, "Bill Paid");
+//                dialogBox.showAndWait();
+//            }
+//        });
+
         addToCart.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

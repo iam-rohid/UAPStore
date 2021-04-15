@@ -83,6 +83,15 @@ public class CartController {
                 }
             }
         });
+
+        buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Alert dialogBox=new Alert(Alert.AlertType.INFORMATION, "Bill Paid");
+                dialogBox.showAndWait();
+            }
+        });
+
         decreaseButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event)
