@@ -18,6 +18,7 @@ import sample.models.Product;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 public class CartController {
 
@@ -87,8 +88,14 @@ public class CartController {
         buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Alert dialogBox=new Alert(Alert.AlertType.INFORMATION, "Bill Paid");
-                dialogBox.showAndWait();
+                Alert dialogBox = new Alert(Alert.AlertType.INFORMATION, "Bill Pain " + Main.cart.getTotalPrice() + "Tk");
+                Optional<ButtonType> result = dialogBox.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    System.out.println("Pressed Ok");
+                    Main.cart.removeAll();
+                    cartList = FXCollections.observableArrayList(Main.cart.getCartItems());
+                    cartListTable.setItems(cartList);
+                }
             }
         });
 
