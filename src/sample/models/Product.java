@@ -8,16 +8,22 @@ public class Product {
         Electronic,
         Clothing,
     }
+
     String id;
     String name;
     Category category;
     Double price;
+    Double salePrice;
+    int quantity;
     boolean inStock;
-    public Product(String name, Category category, Double price){
+
+    public Product(String name, Category category, Double price, int quantity, Double salePrice) {
         this.name = name;
         this.category = category;
         this.price = price;
         this.id = (Math.random() + "").substring(2, 8);
+        this.salePrice = salePrice;
+        this.quantity = quantity;
     }
 
     public String getId() {
@@ -54,5 +60,13 @@ public class Product {
 
     public void setInStock(boolean inStock) {
         this.inStock = inStock;
+    }
+
+    public Double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
     }
 }

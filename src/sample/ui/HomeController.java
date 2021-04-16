@@ -89,21 +89,13 @@ public class HomeController {
             @Override
             public void handle(ActionEvent event)
             {
-                if(quantity - 2  <= 0){
+                if(quantity -2 <= 0){
                     decrease.setDisable(true);
                 }
                 quantity--;
                 updateTotalPrice();
             }
         });
-//
-//        buyNow.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                Alert dialogBox=new Alert(Alert.AlertType.INFORMATION, "Bill Paid");
-//                dialogBox.showAndWait();
-//            }
-//        });
 
         addToCart.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -113,6 +105,7 @@ public class HomeController {
                 updateTotalPrice();
             }
         });
+
         viewCart.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -123,6 +116,7 @@ public class HomeController {
                 }
             }
         });
+
         logOut.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -133,6 +127,7 @@ public class HomeController {
                 }
             }
         });
+
         productTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
                 loadDetailsView(newSelection);
