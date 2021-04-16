@@ -95,6 +95,7 @@ public class CartController {
                     Main.cart.removeAll();
                     cartList = FXCollections.observableArrayList(Main.cart.getCartItems());
                     cartListTable.setItems(cartList);
+                    detailsListView.setVisible(false);
                 }
             }
         });
