@@ -36,7 +36,7 @@
             <Button fx:id="logOut" layoutX="720.0" layoutY="21.0" mnemonicParsing="false" text="Log Out" />
          </children>
       </HBox>
-      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+      <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <tabs>
           <Tab text="Products">
             <content>

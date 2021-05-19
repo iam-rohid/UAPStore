@@ -9,8 +9,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import sample.Main;
 import sample.enums.Category;
 import sample.models.*;
@@ -46,7 +44,11 @@ public class AdminController {
     private TableColumn<Product, Integer> productDiscount;
 
     @FXML
-    private AddProductForm addProductForm;
+    private  TabPane tabPane;
+    @FXML
+    public Tab productsTab;
+    @FXML
+    public Tab addProductTab;
 
     ObservableList tabItems = FXCollections.observableArrayList();
     ObservableList<Product> productList;
@@ -75,6 +77,20 @@ public class AdminController {
                 }
             }
         });
+
+        tabPane.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<Tab>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+                        initializeTabs();
+                    }
+                }
+        );
+    }
+
+    void changeTab(Tab tab){
+        SingleSelectionModel<Tab> tabs = tabPane.getSelectionModel();
+        tabs.select(tab);
     }
 
     void initializeTabs() {
@@ -134,7 +150,6 @@ public class AdminController {
     }
 
     private void showAllItems() {
-        System.out.println("Showing All Items");
         this.productList = FXCollections.observableArrayList(Main.store.getProducts());
         productName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         productId.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));

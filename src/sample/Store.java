@@ -5,8 +5,8 @@ import sample.models.ElectronicProduct;
 import sample.models.FoodProduct;
 import sample.models.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Store {
     ArrayList<Product> products = new ArrayList<Product>();
@@ -21,7 +21,7 @@ public class Store {
         this.products.add(product);
     }
 
-    public void addFoodProduct(String name, Double price, Date expirationDate, FoodProduct.SubCategory subCategory, int quantity, int percentage){
+    public void addFoodProduct(String name, Double price, LocalDate expirationDate, FoodProduct.SubCategory subCategory, int quantity, int percentage){
         FoodProduct foodProduct = new FoodProduct(name, price, expirationDate, subCategory, quantity, percentage);
         this.products.add(foodProduct);
     }

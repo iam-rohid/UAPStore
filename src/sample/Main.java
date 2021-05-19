@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import sample.models.ClothingProduct;
 import sample.models.FoodProduct;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -33,10 +34,10 @@ public class Main extends Application {
         store = new Store();
         cart = new Cart();
         auth = new Auth();
-
-        store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant, 5, 15);
-        store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant, 100, 50);
-        store.addFoodProduct("Kacchi", 149.0, new Date(), FoodProduct.SubCategory.Meal, 120, 35);
+//
+//        store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant, 5, 15);
+//        store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant, 100, 50);
+        store.addFoodProduct("Kacchi", 149.0, LocalDate.now(), FoodProduct.SubCategory.Meal, 120, 35);
         launch(args);
     }
 }

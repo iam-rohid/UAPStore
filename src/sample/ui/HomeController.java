@@ -20,7 +20,9 @@ import sample.models.Product;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class HomeController {
@@ -264,11 +266,11 @@ public class HomeController {
         detailsList.add("Category: " + product.getCategory());
         if(product.getCategory() == Product.Category.Food){
             FoodProduct foodProduct = (FoodProduct) product;
-            String pattern = "dd MMM yyyy";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-            String date = simpleDateFormat.format(foodProduct.getExpirationDate());
+//            String pattern = "dd MMM yyyy";
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+//            String date = simpleDateFormat.format();
             detailsList.add("Sub Category: " + foodProduct.getSubCategory());
-            detailsList.add("Expiration Date: "+ date);
+            detailsList.add("Expiration Date: "+ foodProduct.getExpirationDate().format(DateTimeFormatter.ISO_DATE));
         }
         if(product.getCategory() == Product.Category.Electronic){
             ElectronicProduct electronicProduct = (ElectronicProduct)product;
