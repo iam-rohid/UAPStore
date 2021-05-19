@@ -17,6 +17,7 @@ import sample.models.FoodProduct;
 import sample.models.Product;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class CartController {
@@ -153,7 +154,7 @@ public class CartController {
         productName.setCellValueFactory(new PropertyValueFactory<CartItem, String>("name"));
         productCategory.setCellValueFactory(new PropertyValueFactory<CartItem, Product.Category>("category"));
         productQuantity.setCellValueFactory(new PropertyValueFactory<CartItem, Integer>("quantity"));
-        productPrice.setCellValueFactory(new PropertyValueFactory<CartItem, Double>("price"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<CartItem, Double>("salePrice"));
         productTotalPrice.setCellValueFactory(new PropertyValueFactory<CartItem, Double>("totalPrice"));
         cartListTable.setItems(this.cartList);
     }
@@ -181,9 +182,9 @@ public class CartController {
             ClothingProduct clothingProduct = (ClothingProduct) cartItem.getProduct();
             detailsList.add("Sub Category: " + clothingProduct.getSubCategory().name());
         }
-        detailsList.add("price: " + cartItem.getProduct().getPrice() + " Tk");
+        detailsList.add("price: " + new DecimalFormat("#.00 TK").format(cartItem.getProduct().getSalePrice()));
         detailsList.add("Quantity: " + cartItem.getQuantity());
-        detailsList.add("Total Price: " + cartItem.getTotalPrice() + " Tk");
+        detailsList.add("Total Price: " + new DecimalFormat("#.00 TK").format(Main.cart.getTotalPrice()));
 
         detailsListView.getItems().clear();
         detailsListView.getItems().addAll(detailsList);
@@ -199,7 +200,7 @@ public class CartController {
     void loadOverViewList(){
         overviewList.removeAll(overviewList);
         overviewList.add("Total Items: " + Main.cart.getCartItemCount().toString());
-        overviewList.add("Total Price: " + Main.cart.getTotalPrice().toString() + " Tk");
+        overviewList.add("Total Price: " + new DecimalFormat("#.00 TK").format(Main.cart.getTotalPrice()));
         overviewListView.getItems().clear();
         overviewListView.getItems().addAll(overviewList);
     }

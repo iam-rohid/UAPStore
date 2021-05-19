@@ -18,21 +18,24 @@ import sample.models.FoodProduct;
 import sample.models.Product;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
 public class HomeController {
     @FXML
+    private Label username;
+    @FXML
     private ListView<String> tabsListView;
     @FXML
-    private Button viewCart = new Button();
+    private Button viewCart;
     @FXML
-    private Button logOut = new Button();
+    private Button logOut;
+    @FXML
+    private Button viewDashboard;
     @FXML
     private TextField searchTextField;
-    @FXML
-    private Button searchButton;
     @FXML
     private TableView<Product> productTable;
     @FXML
@@ -74,6 +77,13 @@ public class HomeController {
         detailsMenu.setVisible(false);
         decrease.setDisable(true);
         quantityField.setDisable(true);
+
+        if(Main.auth.isAdminUser){
+            username.setText("Hi, Admin");
+        }else{
+            username.setText("Hi, User");
+        }
+
         increase.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event)
@@ -82,6 +92,9 @@ public class HomeController {
                     decrease.setDisable(false);
                 }
                 quantity++;
+                if(quantity >= selectedProduct.getQuantity()){
+                    increase.setDisable(true);
+                }
                 updateTotalPrice();
             }
         });
@@ -93,6 +106,9 @@ public class HomeController {
                     decrease.setDisable(true);
                 }
                 quantity--;
+                if(quantity < selectedProduct.getQuantity()){
+                    increase.setDisable(false);
+                }
                 updateTotalPrice();
             }
         });
@@ -101,6 +117,8 @@ public class HomeController {
             public void handle(ActionEvent actionEvent) {
                 Main.cart.addCartItem(selectedProduct, quantity);
                 quantity = 1;
+                increase.setDisable(false);
+                decrease.setDisable(true);
                 updateTotalPrice();
             }
         });
@@ -124,6 +142,23 @@ public class HomeController {
                 }
             }
         });
+
+        if(Main.auth.isAdminUser){
+            viewDashboard.setVisible(true);
+            viewDashboard.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    try {
+                        Main.screenController.activate("admin");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else{
+            viewDashboard.setVisible(false);
+        }
+
         productTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
                 loadDetailsView(newSelection);
@@ -195,7 +230,7 @@ public class HomeController {
         productName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
         productId.setCellValueFactory(new PropertyValueFactory<Product, String>("id"));
         productCategory.setCellValueFactory(new PropertyValueFactory<Product, Product.Category>("category"));
-        productPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("salePrice"));
         productTable.setItems(this.productList);
     }
     private void showFoodItems(){
@@ -216,6 +251,8 @@ public class HomeController {
         productTable.setItems(this.productList);
     }
     void loadDetailsView(Product product){
+        increase.setDisable(false);
+        decrease.setDisable(true);
         if(selectedProduct == null || product != selectedProduct){
             this.quantity = 1;
             selectedProduct = product;
@@ -241,13 +278,17 @@ public class HomeController {
             ClothingProduct clothingProduct = (ClothingProduct) product;
             detailsList.add("Sub Category: " + clothingProduct.getSubCategory().name());
         }
-        detailsList.add("Price: " + product.getPrice() + " Tk");
+        detailsList.add("Regular Price: " + new DecimalFormat("#.00 TK").format(product.getPrice()));
+        detailsList.add("Sale Price: " + new DecimalFormat("#.00 TK").format(product.getSalePrice()) + "  (-" + product.getPercentage() + "%)");
+        detailsList.add("Stock: " + (product.getQuantity() > 0 ? product.getQuantity() : "Out of Stock"));
+
         detailsListView.getItems().clear();
         detailsListView.getItems().addAll(detailsList);
         detailsMenu.setVisible(true);
     }
+
     void updateTotalPrice(){
         quantityField.setText(quantity + "");
-        totalPrice.setText((selectedProduct.getPrice() * quantity) + " Tk");
+        totalPrice.setText(new DecimalFormat("#.00 TK").format(selectedProduct.getSalePrice() * quantity));
     }
 }

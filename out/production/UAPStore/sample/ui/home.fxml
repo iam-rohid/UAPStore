@@ -20,19 +20,22 @@
             <Insets left="20.0" right="20.0" />
          </padding>
          <children>
-            <Label text="Hi, User">
+            <Label fx:id="username" text="Hi, User">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <Separator layoutX="266.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchTextField" prefWidth="300.0" promptText="Search by name, category or id" />
             <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
+            <Button fx:id="viewDashboard" layoutX="653.0" layoutY="22.0" mnemonicParsing="false" text="Dashboard" />
             <Button fx:id="viewCart" mnemonicParsing="false" text="View Cart" />
             <Button fx:id="logOut" layoutX="720.0" layoutY="21.0" mnemonicParsing="false" text="Log Out" />
          </children>
       </HBox>
    </top>
    <left>
-      <ListView fx:id="tabsListView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onMousePressed="#tabListViewMouseClick" pickOnBounds="false" prefWidth="140.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="tabsListView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" pickOnBounds="false" prefWidth="140.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
       <VBox fx:id="detailsMenu" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
@@ -45,7 +48,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ListView fx:id="detailsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="detailsListView" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" scaleShape="false" VBox.vgrow="ALWAYS" />
             <VBox maxHeight="-Infinity" spacing="10.0">
                <children>
                   <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="10.0">
@@ -86,7 +89,7 @@
       </VBox>
    </right>
    <center>
-      <TableView fx:id="productTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#tableViewMouseClick" BorderPane.alignment="CENTER">
+      <TableView fx:id="productTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
         <columns>
             <TableColumn fx:id="productId" maxWidth="6000.0" prefWidth="-1.0" text="Id" />
           <TableColumn fx:id="productName" maxWidth="6000.0" prefWidth="-1.0" text="Name" />

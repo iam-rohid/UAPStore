@@ -3,8 +3,8 @@ package sample;
 import java.io.IOException;
 
 public class Auth {
-    boolean isAdminUser = false;
-    boolean isLoggedIn = false;
+    public boolean isAdminUser = true;
+    public boolean isLoggedIn = false;
     public void logIn(String email, String password) throws IOException {
         if(email.equals("user@email.com") && password.equals("1234")){
             isAdminUser = false;

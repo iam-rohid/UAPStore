@@ -13,11 +13,17 @@ public class Product {
     Category category;
     Double price;
     boolean inStock;
-    public Product(String name, Category category, Double price){
+    int quantity;
+    double salePrice;
+    int percentage;
+
+    public Product(String name, Category category, Double price, int quantity, int percentage){
         this.name = name;
         this.category = category;
         this.price = price;
+        this.quantity = quantity;
         this.id = (Math.random() + "").substring(2, 8);
+        this.setPercentage(percentage);
     }
 
     public String getId() {
@@ -54,5 +60,26 @@ public class Product {
 
     public void setInStock(boolean inStock) {
         this.inStock = inStock;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getSalePrice() {
+        return salePrice;
+    }
+
+    public int getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
+        this.salePrice = price - (price * percentage) / 100;
     }
 }

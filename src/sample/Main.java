@@ -24,7 +24,7 @@ public class Main extends Application {
         screenController.addScreen("login", "ui/login.fxml");
         screenController.addScreen("home", "ui/home.fxml");
         screenController.addScreen("cart", "ui/cart.fxml");
-        screenController.addScreen("cart", "ui/admin.fxml");
+        screenController.addScreen("admin", "ui/admin.fxml");
         primaryStage.setTitle("UAP Store");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -34,9 +34,9 @@ public class Main extends Application {
         cart = new Cart();
         auth = new Auth();
 
-        store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant);
-        store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant);
-        store.addFoodProduct("Kacchi", 149.0, new Date(), FoodProduct.SubCategory.Meal);
+        store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant, 5, 15);
+        store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant, 100, 50);
+        store.addFoodProduct("Kacchi", 149.0, new Date(), FoodProduct.SubCategory.Meal, 120, 35);
         launch(args);
     }
 }

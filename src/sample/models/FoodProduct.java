@@ -15,8 +15,8 @@ public class FoodProduct extends Product {
     Date expirationDate;
     SubCategory subCategory;
 
-    public FoodProduct(String name, Double price, Date expirationDate, SubCategory subCategory){
-        super(name, Category.Food, price);
+    public FoodProduct(String name, Double price, Date expirationDate, SubCategory subCategory, int quantity, int percentage){
+        super(name, Category.Food, price, quantity, percentage);
         this.expirationDate = expirationDate;
         this.subCategory = subCategory;
     }
