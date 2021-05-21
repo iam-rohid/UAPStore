@@ -66,6 +66,7 @@ public class CartController {
     ObservableList overviewList = FXCollections.observableArrayList();
     ObservableList<CartItem> cartList;
 
+
     @FXML
     void initialize() {
         loadCart();

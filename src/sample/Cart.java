@@ -89,5 +89,6 @@ public class Cart {
             Main.store.setProductQuantity(cartItem.getProduct().getId(), cartItem.getProduct().getQuantity() - cartItem.getQuantity());
         }
         this.removeAll();
+        Main.storage.storeData();
     }
 }

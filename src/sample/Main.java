@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.models.ClothingProduct;
 import sample.models.FoodProduct;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class Main extends Application {
     public static Cart cart;
     public static  Auth auth;
     public static ScreenController screenController;
+    public static Storage storage;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ui/home.fxml")));
@@ -32,10 +34,12 @@ public class Main extends Application {
         store = new Store();
         cart = new Cart();
         auth = new Auth();
-//
-//        store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant, 5, 15);
-//        store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant, 100, 50);
-        store.addFoodProduct("Kacchi", 149.0, LocalDate.now(), FoodProduct.SubCategory.Meal, 10, 35);
+        storage = new Storage();
+        storage.createFile();
+        //store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant, 5, 15);
+        ///store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant, 100, 50);
+        //store.addFoodProduct("Kacchi", 149.0, LocalDate.now(), FoodProduct.SubCategory.Meal, 10, 35);
+//        storage.storeData();
         launch(args);
     }
 }

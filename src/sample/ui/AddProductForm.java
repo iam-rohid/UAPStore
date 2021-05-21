@@ -178,6 +178,7 @@ public class AddProductForm {
         else if(pc == Product.Category.Clothing){
             Main.store.addClothingProduct(name, price, ClothingProduct.SubCategory.valueOf(cpCategory.getValue()), quantity, percentage);
         }
+        Main.storage.storeData();
         initValues();
     }
 }
