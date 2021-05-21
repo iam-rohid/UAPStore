@@ -75,9 +75,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT">
                      <children>
-                        <Button fx:id="addToCart" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add to Cart" />
-                        <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" visible="false" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="buyNow" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Buy Now" />
+                        <Button fx:id="addToCart" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add to Cart" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>

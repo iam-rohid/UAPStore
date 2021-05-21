@@ -266,9 +266,6 @@ public class HomeController {
         detailsList.add("Category: " + product.getCategory());
         if(product.getCategory() == Product.Category.Food){
             FoodProduct foodProduct = (FoodProduct) product;
-//            String pattern = "dd MMM yyyy";
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-//            String date = simpleDateFormat.format();
             detailsList.add("Sub Category: " + foodProduct.getSubCategory());
             detailsList.add("Expiration Date: "+ foodProduct.getExpirationDate().format(DateTimeFormatter.ISO_DATE));
         }

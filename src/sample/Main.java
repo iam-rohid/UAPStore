@@ -5,11 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.models.ClothingProduct;
 import sample.models.FoodProduct;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -37,7 +35,7 @@ public class Main extends Application {
 //
 //        store.addClothingProduct("Men's Pant", 499.0, ClothingProduct.SubCategory.Pant, 5, 15);
 //        store.addClothingProduct("Women's Pant", 999.0, ClothingProduct.SubCategory.Pant, 100, 50);
-        store.addFoodProduct("Kacchi", 149.0, LocalDate.now(), FoodProduct.SubCategory.Meal, 120, 35);
+        store.addFoodProduct("Kacchi", 149.0, LocalDate.now(), FoodProduct.SubCategory.Meal, 10, 35);
         launch(args);
     }
 }

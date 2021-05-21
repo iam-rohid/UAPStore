@@ -1,5 +1,7 @@
 package sample.models;
 
+import java.text.DecimalFormat;
+
 public class CartItem extends Product {
     Product product;
     int quantity;
@@ -35,7 +37,7 @@ public class CartItem extends Product {
     }
 
     void updateTotalPrice(){
-        this.totalPrice = this.product.getSalePrice() * this.quantity;
+        this.totalPrice = Double.parseDouble(new DecimalFormat("#.00").format(this.product.getSalePrice() * this.quantity));;
     }
 
     public double getTotalPrice() {

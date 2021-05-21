@@ -19,6 +19,7 @@ import sample.models.Product;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class CartController {
@@ -78,7 +79,11 @@ public class CartController {
                     if(selectedCartItem.getQuantity() > 0){
                         decreaseButton.setDisable(false);
                     }
-                    selectedCartItem.setQuantity(selectedCartItem.getQuantity() + 1);
+                    int quantity = selectedCartItem.getQuantity() + 1;
+                    if(quantity >= selectedCartItem.getProduct().getQuantity()){
+                        increaseButton.setDisable(true);
+                    }
+                    selectedCartItem.setQuantity(quantity);
                     loadDetailsView(selectedCartItem);
                     cartListTable.refresh();
                     loadOverViewList();
@@ -93,7 +98,12 @@ public class CartController {
                     if(selectedCartItem.getQuantity() - 2  <= 0){
                         decreaseButton.setDisable(true);
                     }
-                    selectedCartItem.setQuantity(selectedCartItem.getQuantity() - 1);
+
+                    int quantity = selectedCartItem.getQuantity() - 1;
+                    if(quantity <= selectedCartItem.getProduct().getQuantity()){
+                        increaseButton.setDisable(false);
+                    }
+                    selectedCartItem.setQuantity(quantity);
                     loadDetailsView(selectedCartItem);
                     cartListTable.refresh();
                     loadOverViewList();
@@ -151,18 +161,7 @@ public class CartController {
         buyNowButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Alert dialogBox = new Alert(Alert.AlertType.INFORMATION, "Bill Pain " + Main.cart.getTotalPrice() + "Tk");
-                Optional<ButtonType> result = dialogBox.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    System.out.println("Pressed Ok");
-                    Main.cart.removeAll();
-                    cartList = FXCollections.observableArrayList(Main.cart.getCartItems());
-                    cartListTable.setItems(cartList);
-                    detailsListView.setVisible(false);
-                    detailsMenu.setVisible(false);
-
-
-                }
+                buyNow();
             }
         });
     }
@@ -178,6 +177,20 @@ public class CartController {
         cartListTable.setItems(this.cartList);
     }
 
+    void buyNow(){
+        Alert dialogBox = new Alert(Alert.AlertType.INFORMATION, "Bill Paid " + Main.cart.getTotalPrice() + "Tk");
+        Optional<ButtonType> result = dialogBox.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            System.out.println("Pressed Ok");
+            Main.cart.buyAllItems();
+            cartList = FXCollections.observableArrayList(Main.cart.getCartItems());
+            cartListTable.setItems(cartList);
+            detailsListView.setVisible(false);
+            detailsMenu.setVisible(false);
+            overviewListView.getItems().clear();
+        }
+    }
+
     void loadDetailsView(CartItem cartItem){
         this.selectedCartItem = cartItem;
         updateTotalPrice();
@@ -187,11 +200,8 @@ public class CartController {
         detailsList.add("Category: " + cartItem.getProduct().getCategory());
         if(cartItem.getProduct().getCategory() == Product.Category.Food){
             FoodProduct foodProduct = (FoodProduct) cartItem.getProduct();
-            String pattern = "dd MMM yyyy";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-            String date = simpleDateFormat.format(foodProduct.getExpirationDate());
             detailsList.add("Sub Category: " + foodProduct.getSubCategory());
-            detailsList.add("Expiration Date: "+ date);
+            detailsList.add("Expiration Date: "+ foodProduct.getExpirationDate().format(DateTimeFormatter.ISO_DATE));
         }
         if(cartItem.getCategory() == Product.Category.Electronic){
             ElectronicProduct electronicProduct = (ElectronicProduct)cartItem.getProduct();
